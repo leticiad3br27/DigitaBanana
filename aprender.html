@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>📚 Aprender a Digitar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .topbar h1 {
+      color: #667eea;
+      font-size: 2em;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-back {
+      background: #667eea;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .btn-back:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+    }
+
+    .lesson-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+
+    .lesson-btn {
+      padding: 10px 15px;
+      background: white;
+      border: 2px solid #667eea;
+      color: #667eea;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .lesson-btn:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .lesson-btn.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .lesson-btn.completed {
+      background: #10b981;
+      border-color: #10b981;
+      color: white;
+    }
+
+    .lesson-content {
+      display: none;
+    }
+
+    .lesson-content.active {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lesson-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .lesson-header h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+
+    .keyboard-visual {
+      background: #2d3748;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-family: monospace;
+      color: white;
+      text-align: center;
+    }
+
+    .keyboard-row {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin: 5px 0;
+    }
+
+    .key {
+      background: #4a5568;
+      padding: 10px;
+      min-width: 40px;
+      border-radius: 5px;
+      border: 2px solid #718096;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .key.highlight {
+      background: #f59e0b;
+      border-color: #f59e0b;
+      animation: pulse 1s infinite;
+    }
+
+    .key.home-row {
+      background: #667eea;
+      border-color: #667eea;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .practice-area {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .text-to-type {
+      font-size: 2em;
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      letter-spacing: 3px;
+      font-family: monospace;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .typing-input {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.5em;
+      border: 3px solid #667eea;
+      border-radius: 10px;
+      font-family: monospace;
+      text-align: center;
+      letter-spacing: 3px;
+    }
+
+    .typing-input:focus {
+      outline: none;
+      border-color: #764ba2;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.9em;
+      margin-bottom: 5px;
+    }
+
+    .stat-value {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .tip-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+
+    .tip-box strong {
+      color: #92400e;
+    }
+
+    .finger-guide {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .finger-item {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .finger-item h4 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+
+    .btn-next {
+      background: #10b981;
+      color: white;
+      width: 100%;
+      margin-top: 20px;
+      font-size: 1.1em;
+      padding: 15px;
+    }
+
+    .btn-next:hover {
+      background: #059669;
+    }
+
+    .btn-next:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .hand-illustration {
+      text-align: center;
+      font-size: 3em;
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      background: #e5e7eb;
+      height: 10px;
+      border-radius: 5px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      height: 100%;
+      transition: width 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <h1>📚 Aprenda a Digitar</h1>
+    </header>
+
+    <section class="card">
+      <button onclick="window.location.href='index.html'" class="btn btn-back">↩️ Voltar ao Início</button>
+      
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+      </div>
+
+      <div class="lesson-nav" id="lessonNav"></div>
+
+      <div id="lessonContainer"></div>
+    </section>
+  </main>
+
+  <script>
+    const lessons = [
+      {
+        id: 1,
+        title: "Posicionamento Inicial",
+        description: "Aprenda a posição correta das mãos no teclado",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 1: Posicionamento Inicial</h2>
+            <p>A base de tudo: posição correta das mãos</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>💡 Dica:</strong> A fileira do meio do teclado é chamada de "fileira base" ou "home row". Seus dedos devem sempre retornar para esta posição.
+          </div>
+
+          <div class="keyboard-visual">
+            <div class="keyboard-row">
+              <div class="key">Q</div>
+              <div class="key">W</div>
+              <div class="key">E</div>
+              <div class="key">R</div>
+              <div class="key">T</div>
+              <div class="key">Y</div>
+              <div class="key">U</div>
+              <div class="key">I</div>
+              <div class="key">O</div>
+              <div class="key">P</div>
+            </div>
+            <div class="keyboard-row">
+              <div class="key home-row">A</div>
+              <div class="key home-row">S</div>
+              <div class="key home-row">D</div>
+              <div class="key home-row">F</div>
+              <div class="key home-row">G</div>
+              <div class="key home-row">H</div>
+              <div class="key home-row">J</div>
+              <div class="key home-row">K</div>
+              <div class="key home-row">L</div>
+              <div class="key home-row">Ç</div>
+            </div>
+            <div class="keyboard-row">
+              <div class="key">Z</div>
+              <div class="key">X</div>
+              <div class="key">C</div>
+              <div class="key">V</div>
+              <div class="key">B</div>
+              <div class="key">N</div>
+              <div class="key">M</div>
+            </div>
+          </div>
+
+          <div class="hand-illustration">
+            👈 🖐️ 👉
+          </div>
+
+          <div class="finger-guide">
+            <div class="finger-item">
+              <h4>✋ Mão Esquerda</h4>
+              <p><strong>Mindinho:</strong> A<br>
+              <strong>Anelar:</strong> S<br>
+              <strong>Médio:</strong> D<br>
+              <strong>Indicador:</strong> F e G</p>
+            </div>
+            <div class="finger-item">
+              <h4>✋ Mão Direita</h4>
+              <p><strong>Indicador:</strong> J e H<br>
+              <strong>Médio:</strong> K<br>
+              <strong>Anelar:</strong> L<br>
+              <strong>Mindinho:</strong> Ç</p>
+            </div>
+          </div>
+
+          <div class="tip-box">
+            <strong>🎯 Objetivo:</strong> Memorize esta posição. As teclas F e J geralmente têm pequenas saliências para ajudar você a encontrar a posição sem olhar.
+          </div>
+        `,
+        practice: null
+      },
+      {
+        id: 2,
+        title: "Teclas F e J",
+        description: "Pratique as teclas base dos indicadores",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 2: Teclas F e J</h2>
+            <p>Começando com os indicadores</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>👆 Foco:</strong> Use apenas os dedos indicadores. Mantenha os outros dedos na posição base.
+          </div>
+        `,
+        practice: {
+          text: "fff jjj fff jjj fjf jfj fjf jfj",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 3,
+        title: "Teclas D e K",
+        description: "Adicione os dedos médios",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 3: Teclas D e K</h2>
+            <p>Praticando com os dedos médios</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>👆 Foco:</strong> Use os dedos médios para D e K. Mantenha os indicadores em F e J.
+          </div>
+        `,
+        practice: {
+          text: "ddd kkk ddd kkk dkd kdk fdjk jkfd",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 4,
+        title: "Teclas S e L",
+        description: "Pratique com os anelares",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 4: Teclas S e L</h2>
+            <p>Adicionando os dedos anelares</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>👆 Foco:</strong> Dedos anelares para S e L. Volte sempre à posição base.
+          </div>
+        `,
+        practice: {
+          text: "sss lll sss lll sls lsl sdlk lkds",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 5,
+        title: "Teclas A e Ç",
+        description: "Complete a fileira base",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 5: Teclas A e Ç</h2>
+            <p>Dominando todos os mindinhos</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>👆 Foco:</strong> Mindinhos para A e Ç. Agora você conhece toda a fileira base!
+          </div>
+        `,
+        practice: {
+          text: "aaa ççç aaa ççç aça çaç asdfçlkj",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 6,
+        title: "Fileira Base Completa",
+        description: "Pratique todas as teclas da fileira base",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 6: Fileira Base Completa</h2>
+            <p>Combinando todas as teclas aprendidas</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>🎯 Objetivo:</strong> Digite suavemente, sem olhar para o teclado.
+          </div>
+        `,
+        practice: {
+          text: "asdf jklç fdsa çlkj asjk dlçf",
+          minAccuracy: 85
+        }
+      },
+      {
+        id: 7,
+        title: "Palavras Simples I",
+        description: "Forme suas primeiras palavras",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 7: Palavras Simples</h2>
+            <p>Criando palavras com a fileira base</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>✍️ Dica:</strong> Concentre-se na precisão, não na velocidade.
+          </div>
+        `,
+        practice: {
+          text: "sala fala casalass jaca",
+          minAccuracy: 85
+        }
+      },
+      {
+        id: 8,
+        title: "Teclas G e H",
+        description: "Expandindo para teclas adjacentes",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 8: Teclas G e H</h2>
+            <p>Use os indicadores para teclas próximas</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>👆 Foco:</strong> G com indicador esquerdo, H com indicador direito.
+          </div>
+        `,
+        practice: {
+          text: "ggg hhh gfh hjg gaf haj ghgh",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 9,
+        title: "Teclas R e U",
+        description: "Fileira superior - Indicadores",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 9: Teclas R e U</h2>
+            <p>Subindo para a fileira superior</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>⬆️ Movimento:</strong> Mova apenas o dedo necessário, volte à base.
+          </div>
+        `,
+        practice: {
+          text: "rrr uuu rrr uuu ruf ruh ruga",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 10,
+        title: "Teclas E e I",
+        description: "Fileira superior - Dedos médios",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 10: Teclas E e I</h2>
+            <p>Dedos médios na fileira superior</p>
+          </div>
+        `,
+        practice: {
+          text: "eee iii eee iii eia ide eis",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 11,
+        title: "Teclas W e O",
+        description: "Fileira superior - Anelares",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 11: Teclas W e O</h2>
+            <p>Anelares subindo</p>
+          </div>
+        `,
+        practice: {
+          text: "www ooo wow uso owo solo",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 12,
+        title: "Teclas Q e P",
+        description: "Fileira superior - Mindinhos",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 12: Teclas Q e P</h2>
+            <p>Completando a fileira superior</p>
+          </div>
+        `,
+        practice: {
+          text: "qqq ppp que por aqui rapido",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 13,
+        title: "Palavras Completas I",
+        description: "Pratique palavras com duas fileiras",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 13: Palavras Completas</h2>
+            <p>Usando fileira base e superior</p>
+          </div>
+        `,
+        practice: {
+          text: "rua seu pai lua rei seria",
+          minAccuracy: 85
+        }
+      },
+      {
+        id: 14,
+        title: "Teclas V e N",
+        description: "Fileira inferior - Indicadores",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 14: Teclas V e N</h2>
+            <p>Descendo para a fileira inferior</p>
+          </div>
+        `,
+        practice: {
+          text: "vvv nnn vvv nnn van nova vina",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 15,
+        title: "Teclas C e M",
+        description: "Fileira inferior - Dedos médios",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 15: Teclas C e M</h2>
+            <p>Dedos médios descendo</p>
+          </div>
+        `,
+        practice: {
+          text: "ccc mmm cam com cinema maca",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 16,
+        title: "Teclas X e B",
+        description: "Fileira inferior - Anelares",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 16: Teclas X e B</h2>
+            <p>Expandindo a fileira inferior</p>
+          </div>
+        `,
+        practice: {
+          text: "xxx bbb box bom axe boca",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 17,
+        title: "Tecla Z",
+        description: "Complete a fileira inferior",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 17: Tecla Z</h2>
+            <p>Última tecla da fileira inferior</p>
+          </div>
+        `,
+        practice: {
+          text: "zzz zaz zumbi fazer zero luz",
+          minAccuracy: 80
+        }
+      },
+      {
+        id: 18,
+        title: "Frases Curtas I",
+        description: "Pratique frases completas",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 18: Frases Curtas</h2>
+            <p>Digitando frases reais</p>
+          </div>
+        `,
+        practice: {
+          text: "o sol nasce cedo hoje e bom dia",
+          minAccuracy: 85
+        }
+      },
+      {
+        id: 19,
+        title: "Frases Curtas II",
+        description: "Mais prática com frases",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 19: Mais Frases</h2>
+            <p>Aumentando a complexidade</p>
+          </div>
+        `,
+        practice: {
+          text: "a vida e bela quando voce sorri",
+          minAccuracy: 85
+        }
+      },
+      {
+        id: 20,
+        title: "Teste Final",
+        description: "Demonstre tudo que aprendeu",
+        content: `
+          <div class="lesson-header">
+            <h2>Lição 20: Teste Final</h2>
+            <p>Parabéns por chegar até aqui! 🎉</p>
+          </div>
+
+          <div class="tip-box">
+            <strong>🏆 Desafio Final:</strong> Digite com precisão e confiança!
+          </div>
+        `,
+        practice: {
+          text: "agora eu sei digitar sem olhar para o teclado e isso e incrivel",
+          minAccuracy: 90
+        }
+      }
+    ];
+
+    let currentLesson = 0;
+    let completedLessons = [];
+    let currentText = '';
+    let startTime = null;
+    let errors = 0;
+
+    function initLessons() {
+      const nav = document.getElementById('lessonNav');
+      nav.innerHTML = '';
+      
+      lessons.forEach((lesson, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'lesson-btn';
+        btn.textContent = `${lesson.id}`;
+        btn.onclick = () => loadLesson(index);
+        if (index === 0) btn.classList.add('active');
+        nav.appendChild(btn);
+      });
+
+      loadLesson(0);
+    }
+
+    function loadLesson(index) {
+      currentLesson = index;
+      const lesson = lessons[index];
+      
+      document.querySelectorAll('.lesson-btn').forEach((btn, i) => {
+        btn.classList.remove('active');
+        if (i === index) btn.classList.add('active');
+        if (completedLessons.includes(i)) btn.classList.add('completed');
+      });
+
+      const container = document.getElementById('lessonContainer');
+      container.innerHTML = `
+        <div class="lesson-content active">
+          ${lesson.content}
+          ${lesson.practice ? createPracticeArea(lesson.practice) : ''}
+          ${!lesson.practice ? '<button class="btn btn-next" onclick="nextLesson()">Próxima Lição →</button>' : ''}
+        </div>
+      `;
+
+      if (lesson.practice) {
+        currentText = lesson.practice.text;
+        document.getElementById('typingInput').addEventListener('input', handleTyping);
+        document.getElementById('typingInput').focus();
+      }
+
+      updateProgress();
+    }
+
+    function createPracticeArea(practice) {
+      return `
+        <div class="practice-area">
+          <h3>✍️ Área de Prática</h3>
+          <div class="text-to-type" id="textToType">${practice.text}</div>
+          <input type="text" class="typing-input" id="typingInput" placeholder="Digite aqui..." autocomplete="off" />
+          <div class="stats">
+            <div class="stat-item">
+              <div class="stat-label">Progresso</div>
+              <div class="stat-value" id="progress">0%</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Precisão</div>
+              <div class="stat-value" id="accuracy">100%</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Erros</div>
+              <div class="stat-value" id="errors">0</div>
+            </div>
+          </div>
+          <button class="btn btn-next" id="nextBtn" onclick="nextLesson()" disabled>Próxima Lição →</button>
+        </div>
+      `;
+    }
+
+    function handleTyping(e) {
+      const input = e.target.value;
+      const textDisplay = document.getElementById('textToType');
+      
+      if (!startTime) startTime = Date.now();
+
+      let html = '';
+      let correctChars = 0;
+      errors = 0;
+
+      for (let i = 0; i < currentText.length; i++) {
+        if (i < input.length) {
+          if (input[i] === currentText[i]) {
+            html += `<span style="color: #10b981;">${currentText[i]}</span>`;
+            correctChars++;
+          } else {
+            html += `<span style="color: #ef4444; background: #fee2e2;">${currentText[i]}</span>`;
+            errors++;
+          }
+        } else {
+          html += currentText[i];
+        }
+      }
+
+      textDisplay.innerHTML = html;
+
+      const progress = Math.round((input.length / currentText.length) * 100);
+      const accuracy = input.length > 0 ? Math.round((correctChars / input.length) * 100) : 100;
+
+      document.getElementById('progress').textContent = progress + '%';
+      document.getElementById('accuracy').textContent = accuracy + '%';
+      document.getElementById('errors').textContent = errors;
+
+      const nextBtn = document.getElementById('nextBtn');
+      const minAccuracy = lessons[currentLesson].practice.minAccuracy;
+
+      if (input === currentText && accuracy >= minAccuracy) {
+        nextBtn.disabled = false;
+        if (!completedLessons.includes(currentLesson)) {
+          completedLessons.push(currentLesson);
+          updateProgress();
+        }
+      } else {
+        nextBtn.disabled = true;
+      }
+    }
+
+    function nextLesson() {
+      if (currentLesson < lessons.length - 1) {
+        loadLesson(currentLesson + 1);
+      } else {
+        alert('🎉 Parabéns! Você completou todas as lições! Continue praticando para melhorar ainda mais!');
+      }
+    }
+
+    function updateProgress() {
+      const progress = (completedLessons.length / lessons.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    initLessons();
+  </script>
+</body>
+</html>

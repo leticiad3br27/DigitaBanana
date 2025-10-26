@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🎮 Desafio de Digitação Divertido</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <h1>🎮 Desafio de Digitação</h1>
+      <div id="record">🏆 Recorde: -- PPM</div>
+    </header>
+
+    <section id="menu" class="card">
+      <div class="controls">
+        <div>
+          <label>🎯 Modo de Jogo</label>
+          <select id="modeSelect">
+            <option value="letters">📝 Letras</option>
+            <option value="words" selected>🔤 Palavras</option>
+            <option value="sentences">📖 Frases</option>
+            <option value="text">📚 Texto</option>
+          </select>
+        </div>
+
+        <div>
+          <label>⚡ Dificuldade</label>
+          <select id="difficultySelect">
+            <option value="easy">😊 Fácil</option>
+            <option value="medium" selected>😎 Médio</option>
+            <option value="hard">🔥 Difícil</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button id="startBtn" class="btn">🚀 Começar a Jogar</button>
+        <button id="learnBtn" class="btn">📚 Aprender</button>
+      </div>
+    </section>
+
+    <section id="game" class="card hidden">
+      <button id="backToMenuGame" class="btn btn-back">↩️ Voltar ao Início</button>
+      <div class="caps-warning" id="capsWarning">
+        ⚠️ CAPS LOCK ATIVADO! Desligue para digitar corretamente.
+      </div>
+      
+      <div class="error-message" id="errorMessage">
+        ❌ Ops! Você digitou errado
+      </div>
+
+      <div class="game-area">
+        <div class="display-container">
+          <div id="displayText" class="display-text">Pronto...</div>
+          <div id="animationElement"></div>
+        </div>
+        <input id="inputField" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite aqui..." />
+      </div>
+
+      <aside class="panel">
+        <div class="stat"><span>⏱ Tempo</span><strong id="time">60</strong>s</div>
+        <div class="stat"><span>⚡ PPM</span><strong id="wpm">0</strong></div>
+        <div class="stat"><span>🎯 Precisão</span><strong id="accuracy">100%</strong></div>
+        <div class="stat"><span>🔥 Combo</span><strong id="combo">0</strong></div>
+        <div class="stat"><span>⭐ Pontos</span><strong id="score">0</strong></div>
+      </aside>
+    </section>
+
+    <section id="results" class="card hidden">
+      <button id="backToMenuResults" class="btn btn-back">↩️ Voltar ao Início</button>
+      <h2>🏆 Fim de Jogo!</h2>
+      
+      <div class="results-container">
+        <div class="performance-meter">
+          <div class="meter-label">📊 Seu Desempenho Geral</div>
+          <div class="meter-bar-container">
+            <div class="meter-pointer" id="performancePointer"></div>
+          </div>
+          <div class="meter-labels">
+            <span>😢 Fraco</span>
+            <span>😐 Regular</span>
+            <span>😊 Bom</span>
+            <span>😎 Ótimo</span>
+            <span>🔥 Incrível</span>
+          </div>
+          <div class="performance-text" id="performanceText"></div>
+        </div>
+
+        <div id="achievementBadge" class="achievement-badge" style="display: none;"></div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="icon">⚡</div>
+            <div class="value" id="resultWpm">0</div>
+            <div class="label">Palavras/Min</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon">🎯</div>
+            <div class="value" id="resultAccuracy">0%</div>
+            <div class="label">Precisão</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon">🔥</div>
+            <div class="value" id="resultCombo">0x</div>
+            <div class="label">Combo Máximo</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon">✅</div>
+            <div class="value" id="resultWords">0</div>
+            <div class="label">Palavras</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon">⭐</div>
+            <div class="value" id="resultScore">0</div>
+            <div class="label">Pontuação</div>
+          </div>
+        </div>
+      </div>
+
+      <p id="resultSummary"></p>
+      <button id="restartBtn" class="btn">🔄 Jogar Novamente</button>
+    </section>
+
+    <footer class="footer">💡 Dica: Digite exatamente como aparece na tela! Preste atenção em letras maiúsculas e acentos.</footer>
+  </main>
+  <script src="script.js" type="module"></script>
+
+</body>
+</html>
