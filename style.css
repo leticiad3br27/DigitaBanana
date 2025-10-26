@@ -960,7 +960,7 @@
         height: 30px;
         min-width: 34px;
       }
-      /* Ajuste do alerta CAPS em telas pequenas */
+    
       .caps-warning {
         top: 10px;
         font-size: 15px;
